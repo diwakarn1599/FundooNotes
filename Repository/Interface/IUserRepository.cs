@@ -1,11 +1,15 @@
-﻿using System;
+﻿using FundooNotes.Models;
+using Models.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FundooNotes.Repository.Interface
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
+        bool Register(RegisterModel userData);
+        string Login(LoginModel userData);
     }
 }
