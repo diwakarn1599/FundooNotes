@@ -13,7 +13,7 @@ namespace FundooNotes.Controller
     using FundooNotes.Managers.Interface;
     using FundooNotes.Models;
     using Microsoft.AspNetCore.Mvc;
-
+    
     /// <summary>
     /// User controller class
     /// </summary>

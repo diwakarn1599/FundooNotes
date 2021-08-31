@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UserController.cs" company="TVSnxt">
+// <copyright file="UserRepository.cs" company="TVSnxt">
 //   Copyright © 2021 Company="TVSnxt"
 // </copyright>
 // <creator name="Diwakar"/>
@@ -11,9 +11,9 @@ namespace FundooNotes.Repository.Repository
 {
     using System;
     using System.Linq;
+    using System.Net;
     using System.Net.Mail;
     using System.Text;
-    using System.Net;
     using Experimental.System.Messaging;
     using FundooNotes.Models;
     using FundooNotes.Repository.Interface;
@@ -24,7 +24,7 @@ namespace FundooNotes.Repository.Repository
     public class UserRepository : IUserRepository
     {
         /// <summary>
-        /// 
+        /// The user context
         /// </summary>
         private readonly UserContext userContext;
 
@@ -35,6 +35,26 @@ namespace FundooNotes.Repository.Repository
         public UserRepository(UserContext userContext)
         {
             this.userContext = userContext;
+        }
+
+        /// <summary>
+        /// Method to encrypt the password
+        /// </summary>
+        /// <param name="password">the password</param>
+        /// <returns>encrypted password</returns>
+        public static string EncodePasswordToBase64(string password)
+        {
+            try
+            {
+                byte[] encData_byte = new byte[password.Length];
+                encData_byte = Encoding.UTF8.GetBytes(password);
+                string encodedData = Convert.ToBase64String(encData_byte);
+                return encodedData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in base64Encode" + ex.Message);
+            }
         }
 
         /// <summary>
@@ -53,6 +73,7 @@ namespace FundooNotes.Repository.Repository
                     this.userContext.SaveChanges();
                     return true;
                 }
+
                 return false;
             }
             catch (Exception ex)
@@ -60,6 +81,7 @@ namespace FundooNotes.Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
         /// <summary>
         /// method to login
         /// </summary>
@@ -79,7 +101,12 @@ namespace FundooNotes.Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        
+
+        /// <summary>
+        /// Method to Forgot password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>Reset email sent or not</returns>
         public bool ForgotPassword(string email)
         {
             try
@@ -88,21 +115,24 @@ namespace FundooNotes.Repository.Repository
                 if (checkEmail != null)
                 {
                     string url = "www.google.com";
-                    SendToQueue(url);
-                    return ReceiveQueue(email);
+                    this.SendToQueue(url);
+                    return this.ReceiveQueue(email);
                 }
                 else
                 {
                     return false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            
-            
         }
+
+        /// <summary>
+        /// Sends to queue.
+        /// </summary>
+        /// <param name="url">The URL.</param>
         public void SendToQueue(string url)
         {
             try
@@ -116,6 +146,7 @@ namespace FundooNotes.Repository.Repository
                 {
                     msgQueue = MessageQueue.Create(@".\Private$\MyQueue");
                 }
+
                 Message message = new Message();
                 message.Formatter = new BinaryMessageFormatter();
                 message.Body = url;
@@ -128,6 +159,11 @@ namespace FundooNotes.Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Receives from the queue.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>returns boolean value</returns>
         public bool ReceiveQueue(string email)
         {
             try
@@ -136,51 +172,39 @@ namespace FundooNotes.Repository.Repository
                 var receiveMsg = receiveQueue.Receive();
                 receiveMsg.Formatter = new BinaryMessageFormatter();
                 string linkToSend = receiveMsg.Body.ToString();
-                return SendMail(email, linkToSend);
+                return this.SendMail(email, linkToSend);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public bool SendMail(string email,string url)
+
+        /// <summary>
+        /// Sends the mail.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="url">The URL.</param>
+        /// <returns>boolean value whether mail sent or not</returns>
+        public bool SendMail(string email, string url)
         {
             try
             {
                 MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
                 mail.From = new MailAddress("cristianomessicrlm0730@gmail.com");
                 mail.To.Add(email);
                 mail.Subject = "Reset your password";
                 mail.Body = $"Click this link to reset your password\n{url}";
-                SmtpServer.Port = 587;
-                SmtpServer.Credentials = new NetworkCredential("cristianomessicrlm0730@gmail.com", "CristianoMessi0730");
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Send(mail);
+                smtpServer.Port = 587;
+                smtpServer.Credentials = new NetworkCredential("cristianomessicrlm0730@gmail.com", "CristianoMessi0730");
+                smtpServer.EnableSsl = true;
+                smtpServer.Send(mail);
                 return true;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-        }
-        /// <summary>
-        /// Method to encrypt the password
-        /// </summary>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public static string EncodePasswordToBase64(string password)
-        {
-            try
-            {
-                byte[] encData_byte = new byte[password.Length];
-                encData_byte = Encoding.UTF8.GetBytes(password);
-                string encodedData = Convert.ToBase64String(encData_byte);
-                return encodedData;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in base64Encode" + ex.Message);
             }
         }
     }
