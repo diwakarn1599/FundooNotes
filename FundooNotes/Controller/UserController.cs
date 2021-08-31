@@ -1,4 +1,12 @@
-﻿using FundooNotes.Managers.Interface;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserController.cs" company="TVSnxt">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Diwakar"/>
+// ----------------------------------------------------------------------------------------------------------
+
+
+using FundooNotes.Managers.Interface;
 using FundooNotes.Models;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models;
@@ -65,6 +73,27 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("api/forgotPassword")]
+        public IActionResult ForgotPassword(string email)
+        {
+            try
+            {
+                bool result = this.manager.ForgotPassword(email);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please Check the mail" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Error!!!Email id incorrect" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
 
 
 
@@ -76,9 +105,10 @@ namespace FundooNotes.Controller
 
 
 
-        //public IActionResult Index()
-        //{
-        ///   return View();
-        // }
-    }
+
+            //public IActionResult Index()
+            //{
+            ///   return View();
+            // }
+        }
 }
