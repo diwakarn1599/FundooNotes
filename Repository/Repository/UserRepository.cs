@@ -4,8 +4,6 @@
 // </copyright>
 // <creator name="Diwakar"/>
 // ----------------------------------------------------------------------------------------------------------
-using Models.Models;
-using Repository.Context;
 
 namespace FundooNotes.Repository.Repository
 {
@@ -17,7 +15,9 @@ namespace FundooNotes.Repository.Repository
     using Experimental.System.Messaging;
     using FundooNotes.Models;
     using FundooNotes.Repository.Interface;
-    
+    using global::Models.Models;
+    using global::Repository.Context;
+
     /// <summary>
     /// user repository class
     /// </summary>
@@ -208,6 +208,13 @@ namespace FundooNotes.Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="userData">The user data.</param>
+        /// <returns>
+        /// returns the boolean value
+        /// </returns>
         public bool ResetPassword(CredentialModel userData)
         {
             try

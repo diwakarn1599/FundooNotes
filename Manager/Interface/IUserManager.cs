@@ -4,11 +4,11 @@
 // </copyright>
 // <creator name="Diwakar"/>
 // ----------------------------------------------------------------------------------------------------------
-using Models.Models;
 
 namespace FundooNotes.Managers.Interface
 {
     using FundooNotes.Models;
+    using global::Models.Models;
 
     /// <summary>
     /// Interface for user manager
@@ -36,6 +36,11 @@ namespace FundooNotes.Managers.Interface
         /// <returns>returns boolean value</returns>
         bool ForgotPassword(string email);
 
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="userData">The user data.</param>
+        /// <returns>boolean value whether reset or not</returns>
         bool ResetPassword(CredentialModel userData);
     }
 }

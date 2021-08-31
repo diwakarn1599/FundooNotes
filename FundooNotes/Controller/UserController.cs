@@ -5,15 +5,14 @@
 // <creator name="Diwakar"/>
 // ----------------------------------------------------------------------------------------------------------
 
-using Models.Models;
-
 namespace FundooNotes.Controller
 {
     using System;
     using FundooNotes.Managers.Interface;
     using FundooNotes.Models;
     using Microsoft.AspNetCore.Mvc;
-    
+    using global::Models.Models;
+
     /// <summary>
     /// User controller class
     /// </summary>

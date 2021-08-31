@@ -5,15 +5,14 @@
 // <creator name="Diwakar"/>
 // ----------------------------------------------------------------------------------------------------------
 
-using Models.Models;
-
 namespace FundooNotes.Managers.Manager
 {
     using System;
     using FundooNotes.Managers.Interface;
     using FundooNotes.Models;
     using FundooNotes.Repository.Interface;
-    
+    using global::Models.Models;
+
     /// <summary>
     /// User manager class
     /// </summary>
@@ -84,6 +83,13 @@ namespace FundooNotes.Managers.Manager
             }
         }
 
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="userData">The user data.</param>
+        /// <returns>
+        /// boolean value whether reset or not
+        /// </returns>
         public bool ResetPassword(CredentialModel userData)
         {
             try
