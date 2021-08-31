@@ -1,29 +1,47 @@
-﻿using Experimental.System.Messaging;
-using FundooNotes.Models;
-using FundooNotes.Repository.Interface;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserController.cs" company="TVSnxt">
+//   Copyright © 2021 Company="TVSnxt"
+// </copyright>
+// <creator name="Diwakar"/>
+// ----------------------------------------------------------------------------------------------------------
 using Models.Models;
 using Repository.Context;
-using System;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace FundooNotes.Repository.Repository
 {
+    using System;
+    using System.Linq;
+    using System.Net.Mail;
+    using System.Text;
+    using System.Net;
+    using Experimental.System.Messaging;
+    using FundooNotes.Models;
+    using FundooNotes.Repository.Interface;
+    
+    /// <summary>
+    /// user repository class
+    /// </summary>
     public class UserRepository : IUserRepository
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly UserContext userContext;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository" /> class
+        /// </summary>
+        /// <param name="userContext">Initializes objects</param>
         public UserRepository(UserContext userContext)
         {
             this.userContext = userContext;
         }
+
         /// <summary>
         /// method to register
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns></returns>
+        /// <param name="userData">user data to register</param>
+        /// <returns>successfully register or not</returns>
         public bool Register(RegisterModel userData)
         {
             try
@@ -43,10 +61,10 @@ namespace FundooNotes.Repository.Repository
             }
         }
         /// <summary>
-        /// Function to login
+        /// method to login
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns></returns>
+        /// <param name="userData">user data to login</param>
+        /// <returns>successfully login or not</returns>
         public string Login(LoginModel userData)
         {
             try

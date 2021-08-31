@@ -1,39 +1,51 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="UserController.cs" company="TVSnxt">
-//   Copyright © 2021 Company="BridgeLabz"
+//   Copyright © 2021 Company="TVSnxt"
 // </copyright>
 // <creator name="Diwakar"/>
 // ----------------------------------------------------------------------------------------------------------
 
-
-using FundooNotes.Managers.Interface;
-using FundooNotes.Models;
-using Microsoft.AspNetCore.Mvc;
 using Models.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FundooNotes.Controller
 {
+    using System;
+    using FundooNotes.Managers.Interface;
+    using FundooNotes.Models;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// User controller class
+    /// </summary>
     public class UserController : ControllerBase
     {
+        /// <summary>
+        /// manager object
+        /// </summary>
         private readonly IUserManager manager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController" /> class
+        /// </summary>
+        /// <param name="manager">initializes object</param>
         public UserController(IUserManager manager)
         {
             this.manager = manager;
         }
 
+        /// <summary>
+        /// register data of the user
+        /// </summary>
+        /// <param name="userData">user data for register</param>
+        /// <returns>status of the calls a response model object</returns>
         [HttpPost]
         [Route("api/register")]
         public IActionResult Register([FromBody]RegisterModel userData)
         {
             try
             {
-                bool result =  this.manager.Register(userData);
-                if(result == true)
+                bool result = this.manager.Register(userData);
+                if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Registration Successfull" });
                 }
@@ -42,16 +54,17 @@ namespace FundooNotes.Controller
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Registration Unsuccessfull" });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
         /// Login route
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns></returns>
+        /// <param name="userData">user data for login</param>
+        /// <returns>status of the calls a response model object</returns>
         [HttpPost]
         [Route("api/login")]
         public IActionResult Login([FromBody] LoginModel userData)
@@ -73,6 +86,12 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to forget password
+        /// </summary>
+        /// <param name="email">email parameter to send reset email</param>
+        /// <returns>status of the calls a response model object</returns>
         [HttpGet]
         [Route("api/forgotPassword")]
         public IActionResult ForgotPassword(string email)
@@ -95,20 +114,9 @@ namespace FundooNotes.Controller
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-            //public IActionResult Index()
-            //{
-            ///   return View();
-            // }
-        }
+        // public IActionResult Index()
+        // {
+        //    return View();
+        //  }
+    }
 }
