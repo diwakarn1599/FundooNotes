@@ -87,7 +87,7 @@ namespace FundooNotes.Repository.Repository
         /// </summary>
         /// <param name="userData">user data to login</param>
         /// <returns>successfully login or not</returns>
-        public string Login(LoginModel userData)
+        public string Login(CredentialModel userData)
         {
             try
             { 
@@ -201,6 +201,28 @@ namespace FundooNotes.Repository.Repository
                 smtpServer.EnableSsl = true;
                 smtpServer.Send(mail);
                 return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool ResetPassword(CredentialModel userData)
+        {
+            try
+            {
+                var checkEmail = this.userContext.Users.Where(x => x.Email.Equals(userData.Email)).FirstOrDefault();
+                if (checkEmail != null)
+                {
+                    checkEmail.Password = EncodePasswordToBase64(userData.Password);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {

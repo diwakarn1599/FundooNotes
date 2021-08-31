@@ -2,7 +2,7 @@
 
 namespace Models.Models
 {
-    public class LoginModel
+    public class CredentialModel
     {
         [Required]
         public string Email { get; set; }

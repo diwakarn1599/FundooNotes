@@ -38,7 +38,7 @@ namespace FundooNotes.Managers.Manager
         /// </summary>
         /// <param name="userData">user data object for login</param>
         /// <returns>successfully login or not</returns>
-        public string Login(LoginModel userData)
+        public string Login(CredentialModel userData)
         {
             try
             {
@@ -76,8 +76,19 @@ namespace FundooNotes.Managers.Manager
         {
             try
             {
-                bool res = this.repository.ForgotPassword(email);
-                return res;
+                return this.repository.ForgotPassword(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool ResetPassword(CredentialModel userData)
+        {
+            try
+            {
+                return this.repository.ResetPassword(userData);
             }
             catch (Exception ex)
             {

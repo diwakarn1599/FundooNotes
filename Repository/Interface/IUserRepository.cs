@@ -27,7 +27,7 @@ namespace FundooNotes.Repository.Interface
         /// </summary>
         /// <param name="userData">The user data.</param>
         /// <returns>returns the boolean value</returns>
-        string Login(LoginModel userData);
+        string Login(CredentialModel userData);
 
         /// <summary>
         /// Forgot password.
@@ -35,5 +35,7 @@ namespace FundooNotes.Repository.Interface
         /// <param name="email">The email.</param>
         /// <returns>returns the boolean value</returns>
         bool ForgotPassword(string email);
+
+        bool ResetPassword(CredentialModel userData);
     }
 }

@@ -67,7 +67,7 @@ namespace FundooNotes.Controller
         /// <returns>status of the calls a response model object</returns>
         [HttpPost]
         [Route("api/login")]
-        public IActionResult Login([FromBody] LoginModel userData)
+        public IActionResult Login([FromBody] CredentialModel userData)
         {
             try
             {
@@ -106,6 +106,28 @@ namespace FundooNotes.Controller
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Error!!!Email id incorrect" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/resetPassword")]
+        public IActionResult ResetPassword([FromBody] CredentialModel userData)
+        {
+            try
+            {
+                bool result = this.manager.ResetPassword(userData);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Password has been reseted" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Error!!!Try after some time" });
                 }
             }
             catch (Exception ex)
