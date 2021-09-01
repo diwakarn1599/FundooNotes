@@ -128,7 +128,7 @@ namespace FundooNotes.Repository.Repository
                 {
                     string url = "www.google.com";
                     this.SendToQueue(url);
-                    return this.ReceiveQueue(email);
+                    return this.SendMail(email);
                 }
                 else
                 {
@@ -174,17 +174,16 @@ namespace FundooNotes.Repository.Repository
         /// <summary>
         /// Receives from the queue.
         /// </summary>
-        /// <param name="email">The email.</param>
-        /// <returns>returns boolean value</returns>
-        public bool ReceiveQueue(string email)
+        /// <returns>returns string value</returns>
+        public string ReceiveQueue()
         {
             try
             {
                 var receiveQueue = new MessageQueue(@".\Private$\MyQueue");
                 var receiveMsg = receiveQueue.Receive();
                 receiveMsg.Formatter = new BinaryMessageFormatter();
-                string linkToSend = receiveMsg.Body.ToString();
-                return this.SendMail(email, linkToSend);
+                return receiveMsg.Body.ToString();
+                
             }
             catch (Exception ex)
             {
@@ -196,12 +195,12 @@ namespace FundooNotes.Repository.Repository
         /// Sends the mail.
         /// </summary>
         /// <param name="email">The email.</param>
-        /// <param name="url">The URL.</param>
         /// <returns>boolean value whether mail sent or not</returns>
-        public bool SendMail(string email, string url)
+        public bool SendMail(string email)
         {
             try
             {
+                string url = this.ReceiveQueue();
                 MailMessage mail = new MailMessage();
                 SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
                 mail.From = new MailAddress("cristianomessicrlm0730@gmail.com");
