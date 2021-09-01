@@ -73,7 +73,8 @@ namespace FundooNotes.Controller
                 string result = this.manager.Login(userData);
                 if (result.Equals("Login Success"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                    string jwtToken = this.manager.GenrateJwtToken(userData.Email);
+                    return this.Ok(new { Status = true, Message = result ,Data = result,userData.Email, jwtToken });
                 }
                 else
                 {

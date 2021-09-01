@@ -42,5 +42,7 @@ namespace FundooNotes.Managers.Interface
         /// <param name="userData">The user data.</param>
         /// <returns>boolean value whether reset or not</returns>
         bool ResetPassword(CredentialModel userData);
+
+        string GenrateJwtToken(string email);
     }
 }

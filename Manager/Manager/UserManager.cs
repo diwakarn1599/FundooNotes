@@ -101,5 +101,17 @@ namespace FundooNotes.Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string GenrateJwtToken(string email)
+        {
+            try
+            {
+                return this.repository.GenrateJwtToken(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
