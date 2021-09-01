@@ -43,14 +43,14 @@ namespace FundooNotes.Controller
         {
             try
             {
-                bool result = this.manager.Register(userData);
-                if (result == true)
+                string result = this.manager.Register(userData);
+                if (result.Equals("Registration Successfull"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Registration Successfull" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Registration Unsuccessfull" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
@@ -91,7 +91,7 @@ namespace FundooNotes.Controller
         /// </summary>
         /// <param name="email">email parameter to send reset email</param>
         /// <returns>status of the calls a response model object</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/forgotPassword")]
         public IActionResult ForgotPassword(string email)
         {

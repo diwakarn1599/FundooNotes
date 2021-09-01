@@ -62,19 +62,24 @@ namespace FundooNotes.Repository.Repository
         /// </summary>
         /// <param name="userData">user data to register</param>
         /// <returns>successfully register or not</returns>
-        public bool Register(RegisterModel userData)
+        public string Register(RegisterModel userData)
         {
             try
             {
-                if (userData != null)
+                var checkEmail = this.userContext.Users.Where(x => x.Email.Equals(userData.Email)).FirstOrDefault();
+                if(checkEmail==null)
                 {
-                    userData.Password = EncodePasswordToBase64(userData.Password);
-                    this.userContext.Users.Add(userData);
-                    this.userContext.SaveChanges();
-                    return true;
+                    if (userData != null)
+                    {
+                        userData.Password = EncodePasswordToBase64(userData.Password);
+                        this.userContext.Users.Add(userData);
+                        this.userContext.SaveChanges();
+                        return "Registration Successfull";
+                    }
+                    return "Registration UnSuccessfull";
                 }
 
-                return false;
+                return "Email Id already exist";
             }
             catch (Exception ex)
             {

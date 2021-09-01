@@ -20,7 +20,7 @@ namespace FundooNotes.Repository.Interface
         /// </summary>
         /// <param name="userData">The user data.</param>
         /// <returns>returns the boolean value</returns>
-        bool Register(RegisterModel userData);
+        string Register(RegisterModel userData);
 
         /// <summary>
         /// Logins the specified user data.

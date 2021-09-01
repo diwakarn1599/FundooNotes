@@ -54,7 +54,7 @@ namespace FundooNotes.Managers.Manager
         /// </summary>
         /// <param name="userData"> user data object for register</param>
         /// <returns> returns successfully registered or not</returns>
-        public bool Register(RegisterModel userData)
+        public string Register(RegisterModel userData)
         {
             try
             {
