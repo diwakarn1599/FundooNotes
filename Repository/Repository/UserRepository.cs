@@ -219,7 +219,7 @@ namespace FundooNotes.Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-
+        //
         /// <summary>
         /// Resets the password.
         /// </summary>
