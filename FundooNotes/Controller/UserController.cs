@@ -92,7 +92,7 @@ namespace FundooNotes.Controller
         /// </summary>
         /// <param name="email">email parameter to send reset email</param>
         /// <returns>status of the calls a response model object</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/forgotPassword")]
         public IActionResult ForgotPassword(string email)
         {
