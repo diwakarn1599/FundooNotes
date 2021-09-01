@@ -58,6 +58,18 @@ namespace Manager.Manager
             }
         }
 
+        public bool ToggleArchive(int noteId)
+        {
+            try
+            {
+                return this.repository.ToggleArchive(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool TogglePin(int noteId)
         {
             try

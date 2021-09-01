@@ -117,6 +117,28 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpPut]
+        [Route("api/toggleArchive")]
+        public IActionResult ToggleArchive(int noteId)
+        {
+            try
+            {
+                bool result = this.manager.ToggleArchive(noteId);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Archive Updated" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Note not present" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
 
     }
 }
