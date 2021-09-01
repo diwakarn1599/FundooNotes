@@ -9,7 +9,7 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20210901080624_Fundoo-Notes")]
+    [Migration("20210901105017_FundooNotes")]
     partial class FundooNotes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,7 @@ namespace Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")

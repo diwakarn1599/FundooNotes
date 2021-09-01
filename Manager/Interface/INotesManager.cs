@@ -8,5 +8,6 @@ namespace Manager.Interface
     public interface INotesManager
     {
         bool AddNotes(NotesModel noteData);
+        bool DeleteNote(int noteId);
     }
 }

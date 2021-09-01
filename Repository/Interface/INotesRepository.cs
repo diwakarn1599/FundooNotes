@@ -8,5 +8,6 @@ namespace Repository.Interface
     public interface INotesRepository
     {
         bool AddNotes(NotesModel noteData);
+        bool DeleteNote(int noteId);
     }
 }

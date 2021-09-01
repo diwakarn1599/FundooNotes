@@ -3,6 +3,7 @@ using Repository.Context;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repository.Repository
@@ -24,6 +25,8 @@ namespace Repository.Repository
             {
                 if (noteData != null)
                 {
+                   if (noteData.Color == null)
+                        noteData.Color = "white";
                    this.notesContext.Notes.Add(noteData);
                    this.notesContext.SaveChanges();
                    return true;
@@ -36,5 +39,23 @@ namespace Repository.Repository
             }
         }
 
+        public bool DeleteNote(int noteId)
+        {
+            try
+            {
+                var verifyNote = this.notesContext.Notes.Find(noteId);
+                if (verifyNote != null)
+                {
+                    this.notesContext.Notes.Remove(verifyNote);
+                    this.notesContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

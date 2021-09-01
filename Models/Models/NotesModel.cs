@@ -12,11 +12,12 @@ namespace Models.Models
     {
         [Key]
         public int NoteId { get; set; }
-
+        [Required]
         [ForeignKey("RegisterModel")]
         public int UserId { get; set; }
         public virtual RegisterModel RegisterModel { get; set; }
         public string Title { get; set; }
+        [Required]
         public string Description { get; set; }
         public string Reminder { get; set; }
         public string Color { get; set; }
