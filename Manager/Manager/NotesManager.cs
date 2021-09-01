@@ -34,6 +34,18 @@ namespace Manager.Manager
             }
         }
 
+        public string ChangeColor(int noteId, string color)
+        {
+            try
+            {
+                return this.repository.ChangeColor(noteId,color);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool DeleteNote(int noteId)
         {
             try

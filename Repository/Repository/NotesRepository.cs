@@ -39,6 +39,30 @@ namespace Repository.Repository
             }
         }
 
+        public string ChangeColor(int noteId, string color)
+        {
+            try
+            {
+                var verifyNote = this.notesContext.Notes.Find(noteId);
+                if (verifyNote != null)
+                {
+                    if (color != null)
+                    {
+                        verifyNote.Color = color;
+                        this.notesContext.SaveChanges();
+                        return "Color Updated Successfully";
+                    }
+                    return "Color Value is Null";
+
+                }
+                return "Note Not present";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool DeleteNote(int noteId)
         {
             try
