@@ -81,5 +81,24 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool TogglePin(int noteId)
+        {
+            try
+            {
+                var verifyNote = this.notesContext.Notes.Find(noteId);
+                if (verifyNote != null)
+                {
+                    verifyNote.Pin = verifyNote.Pin ? false : true;
+                    this.notesContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

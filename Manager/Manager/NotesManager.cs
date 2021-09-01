@@ -57,5 +57,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool TogglePin(int noteId)
+        {
+            try
+            {
+                return this.repository.TogglePin(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
