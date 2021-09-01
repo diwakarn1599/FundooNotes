@@ -8,6 +8,7 @@ namespace Repository.Context
 {
     using FundooNotes.Models;
     using Microsoft.EntityFrameworkCore;
+    using Models.Models;
 
     /// <summary>
     /// User context class
@@ -31,5 +32,7 @@ namespace Repository.Context
         /// The users.
         /// </value>
         public DbSet<RegisterModel> Users { get; set; }
+
+        public DbSet<NotesModel> Notes { get; set; }
     }
 }

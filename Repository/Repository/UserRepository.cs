@@ -37,7 +37,8 @@ namespace FundooNotes.Repository.Repository
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepository" /> class
         /// </summary>
-        /// <param name="userContext">Initializes objects</param>
+        /// <param name="userContext">Initializes userContext object</param>
+        /// <param name="configuration">Initializes configuration object</param>
         public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
