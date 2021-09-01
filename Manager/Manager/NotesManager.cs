@@ -58,6 +58,18 @@ namespace Manager.Manager
             }
         }
 
+        public bool RestoreNote(int noteId)
+        {
+            try
+            {
+                return this.repository.RestoreNote(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool ToggleArchive(int noteId)
         {
             try

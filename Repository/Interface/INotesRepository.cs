@@ -10,9 +10,8 @@ namespace Repository.Interface
         bool AddNotes(NotesModel noteData);
         bool DeleteNote(int noteId);
         string ChangeColor(int noteId, string color);
-
         bool TogglePin(int noteId);
-
         bool ToggleArchive(int noteId);
+        bool RestoreNote(int noteId);
     }
 }

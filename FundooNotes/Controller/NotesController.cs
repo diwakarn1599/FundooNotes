@@ -51,8 +51,8 @@ namespace FundooNotes.Controller
             }
         }
 
-        [HttpDelete]
-        [Route("api/deleteNotes")]
+        [HttpPut]
+        [Route("api/deleteNote")]
         public IActionResult DeleteNote(int noteId)
         {
             try
@@ -73,6 +73,27 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpPut]
+        [Route("api/restoreNote")]
+        public IActionResult RestoreNote(int noteId)
+        {
+            try
+            {
+                bool result = this.manager.RestoreNote(noteId);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Note Restored" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Note not present" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
         [HttpPut]
         [Route("api/changeColor")]
         public IActionResult ChangeColor(int noteId,string color)
