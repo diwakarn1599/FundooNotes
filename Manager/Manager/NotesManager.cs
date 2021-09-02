@@ -82,6 +82,18 @@ namespace Manager.Manager
             }
         }
 
+        public List<NotesModel> GetReminderNotes(int userId)
+        {
+            try
+            {
+                return this.repository.GetReminderNotes(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool MoveToTrash(int noteId)
         {
             try

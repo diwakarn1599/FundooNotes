@@ -87,12 +87,7 @@ namespace Repository.Repository
             try
             {
                 List<NotesModel> getNotes = this.notesContext.Notes.Where(x => x.UserId == userId && (x.Trash == false && x.Archive==false)).ToList();
-                if (getNotes!=null)
-                {
-                    
-                    return getNotes;
-                }
-                return null;
+                return getNotes;
             }
             catch (Exception ex)
             {
@@ -226,6 +221,19 @@ namespace Repository.Repository
                     return true;
                 }
                 return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<NotesModel> GetReminderNotes(int userId)
+        {
+            try
+            {
+                List<NotesModel> getReminderNotes = this.notesContext.Notes.Where(x => x.UserId == userId && (x.Reminder!=null && x.Trash == false)).ToList();
+                return getReminderNotes;
             }
             catch (Exception ex)
             {

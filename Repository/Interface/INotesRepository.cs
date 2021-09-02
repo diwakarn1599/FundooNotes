@@ -16,6 +16,7 @@ namespace Repository.Interface
         bool MoveToTrash(int noteId);
         bool UpdateNote(NotesModel noteData);
         List<NotesModel> GetNotes(int userId);
+        List<NotesModel> GetReminderNotes(int userId);
         bool SetRemainder(int noteId, string reminder);
         bool DeleteReminder(int noteId);
     }

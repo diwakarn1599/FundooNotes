@@ -75,6 +75,28 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpGet]
+        [Route("api/getReminder")]
+        public IActionResult GetReminderNotes(int userId)
+        {
+            try
+            {
+                var result = this.manager.GetReminderNotes(userId);
+                if (result.Count > 0)
+                {
+                    return this.Ok(new { Status = true, Message = "Reminder Notes retreived Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Unsuccessfull...No reminder notes" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
         [HttpPut]
         [Route("api/updateNote")]
         public IActionResult UpdateNote([FromBody] NotesModel noteData)
