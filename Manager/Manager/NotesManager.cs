@@ -70,6 +70,18 @@ namespace Manager.Manager
             }
         }
 
+        public bool EmptyTrash(int userId)
+        {
+            try
+            {
+                return this.repository.EmptyTrash(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public List<NotesModel> GetArchiveNotes(int userId)
         {
             try

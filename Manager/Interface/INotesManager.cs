@@ -21,5 +21,6 @@ namespace Manager.Interface
         List<NotesModel> GetTrashNotes(int userId);
         bool SetRemainder(int noteId, string reminder);
         bool DeleteReminder(int noteId);
+        bool EmptyTrash(int userId);
     }
 }

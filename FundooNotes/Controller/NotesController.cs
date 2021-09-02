@@ -75,6 +75,28 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpDelete]
+        [Route("api/emptyTrash")]
+        public IActionResult EmptyTrash(int userId)
+        {
+            try
+            {
+                bool result = this.manager.EmptyTrash(userId);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Trash Cleared" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Unsuccessfull...No notes in trash" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("api/getReminder")]
         public IActionResult GetReminderNotes(int userId)
@@ -163,7 +185,7 @@ namespace FundooNotes.Controller
             }
         }
 
-        [HttpPut]
+        [HttpDelete]
         [Route("api/deleteNote")]
         public IActionResult DeleteNote(int noteId)
         {
