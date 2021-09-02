@@ -119,6 +119,28 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpGet]
+        [Route("api/getTrash")]
+        public IActionResult GetTrashNotes(int userId)
+        {
+            try
+            {
+                var result = this.manager.GetTrashNotes(userId);
+                if (result.Count > 0)
+                {
+                    return this.Ok(new { Status = true, Message = "Trash Notes retreived Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Unsuccessfull...No Trash notes" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
         [HttpPut]
         [Route("api/updateNote")]
         public IActionResult UpdateNote([FromBody] NotesModel noteData)

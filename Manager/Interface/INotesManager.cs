@@ -18,6 +18,7 @@ namespace Manager.Interface
         List<NotesModel> GetNotes(int userId);
         List<NotesModel> GetReminderNotes(int userId);
         List<NotesModel> GetArchiveNotes(int userId);
+        List<NotesModel> GetTrashNotes(int userId);
         bool SetRemainder(int noteId, string reminder);
         bool DeleteReminder(int noteId);
     }

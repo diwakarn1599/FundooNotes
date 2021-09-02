@@ -256,8 +256,17 @@ namespace Repository.Repository
             }
         }
 
-        
-
-       
+        public List<NotesModel> GetTrashNotes(int userId)
+        {
+            try
+            {
+                List<NotesModel> getNotes = this.notesContext.Notes.Where(x => x.UserId == userId && x.Trash == true).ToList();
+                return getNotes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
