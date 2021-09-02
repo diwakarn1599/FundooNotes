@@ -193,7 +193,7 @@ namespace FundooNotes.Controller
                 bool result = this.manager.SetRemainder(noteId, reminder);
                 if (result)
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Remiander set sucessfull" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reminder set sucessfull" });
                 }
                 else
                 {
@@ -206,6 +206,27 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpPut]
+        [Route("api/deleteReminder")]
+        public IActionResult DeleteReminder(int noteId)
+        {
+            try
+            {
+                bool result = this.manager.DeleteReminder(noteId);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Remiander deleted" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "unsucessfull" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
         [HttpPut]
         [Route("api/togglePin")]
         public IActionResult TogglePin(int noteId)

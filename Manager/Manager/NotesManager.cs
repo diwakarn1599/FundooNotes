@@ -58,6 +58,18 @@ namespace Manager.Manager
             }
         }
 
+        public bool DeleteReminder(int noteId)
+        {
+            try
+            {
+                return this.repository.DeleteReminder(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public List<NotesModel> GetNotes(int userId)
         {
             try
