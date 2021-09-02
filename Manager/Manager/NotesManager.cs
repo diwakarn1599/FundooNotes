@@ -58,6 +58,18 @@ namespace Manager.Manager
             }
         }
 
+        public List<NotesModel> GetNotes(int userId)
+        {
+            try
+            {
+                return this.repository.GetNotes(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool MoveToTrash(int noteId)
         {
             try

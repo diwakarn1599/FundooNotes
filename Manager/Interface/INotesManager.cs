@@ -15,5 +15,6 @@ namespace Manager.Interface
         bool MoveToTrash(int noteId);
         bool RestoreNote(int noteId);
         bool UpdateNote(NotesModel noteData);
+        List<NotesModel> GetNotes(int userId);
     }
 }

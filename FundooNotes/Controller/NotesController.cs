@@ -53,6 +53,28 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpGet]
+        [Route("api/getNotes")]
+        public IActionResult GetNotes(int userId)
+        {
+            try
+            {
+                var result = this.manager.GetNotes(userId);
+                if (result.Count>0)
+                {
+                    return this.Ok(new { Status = true, Message = "Notes retreived Successfully",Data=result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Unsuccessfull" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
         [HttpPut]
         [Route("api/updateNote")]
         public IActionResult UpdateNote([FromBody] NotesModel noteData)

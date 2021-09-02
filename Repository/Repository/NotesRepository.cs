@@ -82,6 +82,24 @@ namespace Repository.Repository
             }
         }
 
+        public List<NotesModel> GetNotes(int userId)
+        {
+            try
+            {
+                List<NotesModel> getNotes = this.notesContext.Notes.Where(x => x.UserId == userId && (x.Trash == false && x.Archive==false)).ToList();
+                if (getNotes!=null)
+                {
+                    
+                    return getNotes;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool MoveToTrash(int noteId)
         {
             try
