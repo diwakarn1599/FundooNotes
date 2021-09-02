@@ -129,6 +129,8 @@ namespace Repository.Repository
                 if (verifyNote!=null)
                 {
                     verifyNote.Trash = true;
+                    verifyNote.Pin = false;
+                    verifyNote.Reminder = null;
                     this.notesContext.SaveChanges();
                     return true;
                 }
