@@ -23,7 +23,7 @@ namespace Repository.Repository
         {
             try
             {
-                if (noteData != null)
+                if (noteData.Title!=null || noteData.Description != null)
                 {
                    if (noteData.Color == null)
                         noteData.Color = "white";

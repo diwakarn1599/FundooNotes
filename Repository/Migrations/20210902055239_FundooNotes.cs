@@ -14,7 +14,7 @@ namespace Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     Reminder = table.Column<string>(nullable: true),
                     Color = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true),
