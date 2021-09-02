@@ -62,6 +62,28 @@ namespace FundooNotes.Controller
                 bool result = this.manager.DeleteNote(noteId);
                 if (result)
                 {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Note Deleted Permanently" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Note not present or First Move to Trash" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/moveToTrash")]
+        public IActionResult MoveToTrash(int noteId)
+        {
+            try
+            {
+                bool result = this.manager.MoveToTrash(noteId);
+                if (result)
+                {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Note Deleted" });
                 }
                 else
@@ -84,7 +106,7 @@ namespace FundooNotes.Controller
                 bool result = this.manager.RestoreNote(noteId);
                 if (result)
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Note Restored" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Note Restored from Trash" });
                 }
                 else
                 {

@@ -13,5 +13,6 @@ namespace Repository.Interface
         bool TogglePin(int noteId);
         bool ToggleArchive(int noteId);
         bool RestoreNote(int noteId);
+        bool MoveToTrash(int noteId);
     }
 }

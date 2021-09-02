@@ -68,7 +68,26 @@ namespace Repository.Repository
             try
             {
                 var verifyNote = this.notesContext.Notes.Find(noteId);
-                if (verifyNote != null)
+                if (verifyNote.Trash==true)
+                {
+                    this.notesContext.Notes.Remove(verifyNote);
+                    this.notesContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool MoveToTrash(int noteId)
+        {
+            try
+            {
+                var verifyNote = this.notesContext.Notes.Find(noteId);
+                if (verifyNote!=null)
                 {
                     verifyNote.Trash = true;
                     this.notesContext.SaveChanges();

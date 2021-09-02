@@ -12,6 +12,8 @@ namespace Manager.Interface
         string ChangeColor(int noteId, string color);
         bool TogglePin(int noteId);
         bool ToggleArchive(int noteId);
+
+        bool MoveToTrash(int noteId);
         bool RestoreNote(int noteId);
     }
 }
