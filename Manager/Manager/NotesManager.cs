@@ -94,6 +94,18 @@ namespace Manager.Manager
             }
         }
 
+        public bool SetRemainder(int noteId, string reminder)
+        {
+            try
+            {
+                return this.repository.SetRemainder(noteId, reminder);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool ToggleArchive(int noteId)
         {
             try

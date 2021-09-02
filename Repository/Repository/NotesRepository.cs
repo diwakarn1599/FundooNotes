@@ -138,6 +138,25 @@ namespace Repository.Repository
             }
         }
 
+        public bool SetRemainder(int noteId, string reminder)
+        {
+            try
+            {
+                var verifyNote = this.notesContext.Notes.Find(noteId);
+                if (verifyNote != null)
+                {
+                    verifyNote.Reminder = reminder;
+                    this.notesContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool ToggleArchive(int noteId)
         {
             try

@@ -185,6 +185,28 @@ namespace FundooNotes.Controller
         }
 
         [HttpPut]
+        [Route("api/setReminder")]
+        public IActionResult SetRemainder(int noteId, string reminder)
+        {
+            try
+            {
+                bool result = this.manager.SetRemainder(noteId, reminder);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Remiander set sucessfull" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "unsucessfull" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
         [Route("api/togglePin")]
         public IActionResult TogglePin(int noteId)
         {
