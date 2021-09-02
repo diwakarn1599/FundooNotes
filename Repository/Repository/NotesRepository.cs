@@ -157,5 +157,25 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool UpdateNote(NotesModel noteData)
+        {
+            try
+            {
+                var verifyNote = this.notesContext.Notes.Find(noteData.NoteId);
+                if (verifyNote != null)
+                {
+                    verifyNote.Title = noteData.Title;
+                    verifyNote.Description = noteData.Description;
+                    this.notesContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

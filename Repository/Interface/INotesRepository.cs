@@ -14,5 +14,6 @@ namespace Repository.Interface
         bool ToggleArchive(int noteId);
         bool RestoreNote(int noteId);
         bool MoveToTrash(int noteId);
+        bool UpdateNote(NotesModel noteData);
     }
 }

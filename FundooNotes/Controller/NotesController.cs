@@ -54,6 +54,28 @@ namespace FundooNotes.Controller
         }
 
         [HttpPut]
+        [Route("api/updateNote")]
+        public IActionResult UpdateNote([FromBody] NotesModel noteData)
+        {
+            try
+            {
+                bool result = this.manager.UpdateNote(noteData);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes updated Successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Unsuccessfull" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
         [Route("api/deleteNote")]
         public IActionResult DeleteNote(int noteId)
         {
