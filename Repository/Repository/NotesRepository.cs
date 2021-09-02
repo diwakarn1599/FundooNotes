@@ -95,6 +95,32 @@ namespace Repository.Repository
             }
         }
 
+        public List<NotesModel> GetReminderNotes(int userId)
+        {
+            try
+            {
+                List<NotesModel> getReminderNotes = this.notesContext.Notes.Where(x => x.UserId == userId && (x.Reminder != null && x.Trash == false)).ToList();
+                return getReminderNotes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<NotesModel> GetArchiveNotes(int userId)
+        {
+            try
+            {
+                List<NotesModel> getArchiveNotes = this.notesContext.Notes.Where(x => x.UserId == userId && (x.Trash == false && x.Archive == true)).ToList();
+                return getArchiveNotes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool MoveToTrash(int noteId)
         {
             try
@@ -228,17 +254,8 @@ namespace Repository.Repository
             }
         }
 
-        public List<NotesModel> GetReminderNotes(int userId)
-        {
-            try
-            {
-                List<NotesModel> getReminderNotes = this.notesContext.Notes.Where(x => x.UserId == userId && (x.Reminder!=null && x.Trash == false)).ToList();
-                return getReminderNotes;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        
+
+       
     }
 }
