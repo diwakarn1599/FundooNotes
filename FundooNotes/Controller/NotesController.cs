@@ -14,7 +14,7 @@ namespace FundooNotes.Controller
     using System;
     using Microsoft.AspNetCore.Authorization;
 
-    
+    [Authorize]
     public class NotesController : ControllerBase
     {
         /// <summary>

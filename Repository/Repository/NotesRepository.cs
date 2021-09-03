@@ -206,6 +206,7 @@ namespace Repository.Repository
                 if (verifyNote != null)
                 {
                     verifyNote.Archive = verifyNote.Archive ? false : true;
+                    verifyNote.Pin = false;
                     this.notesContext.SaveChanges();
                     return true;
                 }
@@ -225,6 +226,7 @@ namespace Repository.Repository
                 if (verifyNote != null)
                 {
                     verifyNote.Pin = verifyNote.Pin ? false : true;
+                    verifyNote.Archive = false;
                     this.notesContext.SaveChanges();
                     return true;
                 }
