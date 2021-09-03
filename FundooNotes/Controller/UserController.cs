@@ -83,7 +83,7 @@ namespace FundooNotes.Controller
                 {
                     _logger.LogInformation($"{userData.Email} logged in");
                     string jwtToken = this.manager.GenrateJwtToken(userData.Email);
-                    return this.Ok(new { Status = true, Message = result ,Data = result,userData.Email, jwtToken });
+                    return this.Ok(new { Status = true, Message = result ,userData.Email, jwtToken });
                 }
                 else
                 {
