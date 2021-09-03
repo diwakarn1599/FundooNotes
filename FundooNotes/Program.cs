@@ -8,6 +8,8 @@ namespace FundooNotes
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using NLog.Web;
 
     /// <summary>
     /// main class
@@ -20,6 +22,8 @@ namespace FundooNotes
         /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            logger.Debug("init main function");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -32,7 +36,11 @@ namespace FundooNotes
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().ConfigureLogging(logging =>
+                    {
+                        logging.ClearProviders();
+                        logging.SetMinimumLevel(LogLevel.Information);
+                    }).UseNLog();
                 });
     }
 }

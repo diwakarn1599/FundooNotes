@@ -13,6 +13,7 @@ namespace FundooNotes.Controller
     using global::Models.Models;
     using System;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.Extensions.Logging;
 
     [Authorize]
     public class NotesController : ControllerBase
@@ -22,13 +23,16 @@ namespace FundooNotes.Controller
         /// </summary>
         private readonly INotesManager manager;
 
+        private readonly ILogger<NotesController> _logger;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class
         /// </summary>
         /// <param name="manager">initializes object</param>
-        public NotesController(INotesManager manager)
+        public NotesController(INotesManager manager, ILogger<NotesController> logger)
         {
             this.manager = manager;
+            _logger = logger;
         }
 
         [HttpPost]

@@ -12,6 +12,7 @@ namespace FundooNotes.Controller
     using FundooNotes.Models;
     using Microsoft.AspNetCore.Mvc;
     using global::Models.Models;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// User controller class
@@ -22,14 +23,16 @@ namespace FundooNotes.Controller
         /// manager object
         /// </summary>
         private readonly IUserManager manager;
+        private readonly ILogger<UserController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class
         /// </summary>
         /// <param name="manager">initializes object</param>
-        public UserController(IUserManager manager)
+        public UserController(IUserManager manager , ILogger<UserController> logger)
         {
             this.manager = manager;
+            _logger = logger;
         }
 
         /// <summary>
@@ -43,18 +46,22 @@ namespace FundooNotes.Controller
         {
             try
             {
+                _logger.LogInformation($"{userData.FirstName} registering");
                 string result = this.manager.Register(userData);
                 if (result.Equals("Registration Successfull"))
                 {
+                    _logger.LogInformation($"{userData.FirstName} registered successfully");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
+                    _logger.LogInformation($"{userData.FirstName} registeration unsuccessfull");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogWarning($"{userData.FirstName} Exception Occured => {ex.Message}");
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -70,19 +77,23 @@ namespace FundooNotes.Controller
         {
             try
             {
+                
                 string result = this.manager.Login(userData);
                 if (result.Equals("Login Success"))
                 {
+                    _logger.LogInformation($"{userData.Email} logged in");
                     string jwtToken = this.manager.GenrateJwtToken(userData.Email);
                     return this.Ok(new { Status = true, Message = result ,Data = result,userData.Email, jwtToken });
                 }
                 else
                 {
+                    _logger.LogInformation($"{userData.Email} login failed");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogWarning($"{userData.Email} Exception Occured => {ex.Message}");
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -98,18 +109,22 @@ namespace FundooNotes.Controller
         {
             try
             {
+                _logger.LogInformation($"{email} is clicked forgot password");
                 bool result = this.manager.ForgotPassword(email);
                 if (result)
                 {
+                    _logger.LogInformation($"Mail sent to {email} for reseting password");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please Check the mail" });
                 }
                 else
                 {
+                    _logger.LogInformation($"{email} is not present in database");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Error!!!Email id incorrect" });
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogWarning($"{email} Exception Occured => {ex.Message}");
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -120,18 +135,22 @@ namespace FundooNotes.Controller
         {
             try
             {
+                _logger.LogInformation($"{userData.Email} reseting password");
                 bool result = this.manager.ResetPassword(userData);
                 if (result)
                 {
+                    _logger.LogInformation($"{userData.Email} Password reseted");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Password has been reseted" });
                 }
                 else
                 {
+                    _logger.LogInformation($"{userData.Email} Password not reseted");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Error!!!Try after some time" });
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogWarning($"{userData.Email} Exception Occured => {ex.Message}");
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
