@@ -23,10 +23,8 @@ namespace Repository.Repository
         {
             try
             {
-                if (noteData.Title!=null || noteData.Description != null)
+                if (noteData!=null)
                 {
-                   if (noteData.Color == null)
-                        noteData.Color = "white";
                    this.notesContext.Notes.Add(noteData);
                    this.notesContext.SaveChanges();
                    return true;
