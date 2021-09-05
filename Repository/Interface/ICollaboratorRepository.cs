@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Models.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Repository.Interface
 {
-    public class ICollaboratorRepository
+    public interface ICollaboratorRepository
     {
+        string AddCollaborator(CollaboratorModel collaborator);
     }
 }
+

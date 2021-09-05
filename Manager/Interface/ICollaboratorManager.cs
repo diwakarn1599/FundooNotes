@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Models.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Manager.Interface
 {
-    public class ICollaboratorManager
+    public interface ICollaboratorManager
     {
-
+        string AddCollaborator(CollaboratorModel collaborator);
     }
 }
