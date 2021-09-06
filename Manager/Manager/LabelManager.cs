@@ -26,5 +26,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool AddLabeltoUser(LabelModel labelData)
+        {
+            try
+            {
+                return this.repository.AddLabeltoUser(labelData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

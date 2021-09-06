@@ -8,5 +8,7 @@ namespace Repository.Interface
     public interface ILabelRepository
     {
         bool AddLabeltoNote(LabelModel labelData);
+
+        bool AddLabeltoUser(LabelModel labelData);
     }
 }

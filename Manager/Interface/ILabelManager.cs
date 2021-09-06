@@ -8,5 +8,6 @@ namespace Manager.Interface
     public interface ILabelManager
     {
         bool AddLabeltoNote(LabelModel labelData);
+        bool AddLabeltoUser(LabelModel labelData);
     }
 }

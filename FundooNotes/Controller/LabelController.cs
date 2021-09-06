@@ -30,7 +30,7 @@ namespace FundooNotes.Controller
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "unsuccessfull" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Label already exists" });
                 }
             }
             catch (Exception ex)
@@ -42,18 +42,18 @@ namespace FundooNotes.Controller
 
         [HttpPost]
         [Route("api/addLabelToUser")]
-        public IActionResult AddLabeltoNote([FromBody] LabelModel labelData)
+        public IActionResult AddLabeltoUser([FromBody] LabelModel labelData)
         {
             try
             {
-                bool result = this.manager.AddLabeltoNote(labelData);
+                bool result = this.manager.AddLabeltoUser(labelData);
                 if (result)
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Label added to the note" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Label added to the user" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "unsuccessfull" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Label already exists" });
                 }
             }
             catch (Exception ex)
