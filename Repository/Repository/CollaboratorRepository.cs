@@ -40,6 +40,19 @@ namespace Repository.Repository
             }
         }
 
+        public List<CollaboratorModel> GetCollaborators(int noteId)
+        {
+            try
+            {
+                List<CollaboratorModel> getCollaborators = this.collaboratorContext.Collaborators.Where(x =>x.NoteId==noteId).ToList();
+                return getCollaborators;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool RemoveCollaborator(int collaboratorId, int noteId)
         {
             try

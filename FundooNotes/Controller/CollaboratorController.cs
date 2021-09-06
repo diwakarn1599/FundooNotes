@@ -66,5 +66,27 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("api/getCollaborators")]
+        public IActionResult GetCollaborators(int noteId)
+        {
+            try
+            {
+                var result = this.manager.GetCollaborators(noteId);
+                if (result.Count>0)
+                {
+                    return this.Ok(new ResponseModel<List<CollaboratorModel>>() { Status = true, Message = "Collaborator retreived",Data=result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No Collaborators to this note" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

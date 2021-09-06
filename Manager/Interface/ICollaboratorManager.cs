@@ -9,5 +9,6 @@ namespace Manager.Interface
     {
         string AddCollaborator(CollaboratorModel collaborator);
         bool RemoveCollaborator(int collaboratorId, int noteId);
+        List<CollaboratorModel> GetCollaborators(int noteId);
     }
 }
