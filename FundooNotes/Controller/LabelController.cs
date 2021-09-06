@@ -39,5 +39,28 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("api/addLabelToUser")]
+        public IActionResult AddLabeltoNote([FromBody] LabelModel labelData)
+        {
+            try
+            {
+                bool result = this.manager.AddLabeltoNote(labelData);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Label added to the note" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "unsuccessfull" });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Models.Models;
 using Repository.Context;
@@ -19,7 +20,8 @@ namespace Repository.Repository
         {
             try
             {
-                if(labelData!=null)
+                var checkLabel = this.labelContext.Labels.Where(x => x.NoteId == labelData.NoteId && x.LabelName.Equals(labelData.LabelName));
+                if (checkLabel == null)
                 {
                     this.labelContext.Labels.Add(labelData);
                     this.labelContext.SaveChanges();
