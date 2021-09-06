@@ -438,6 +438,31 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpPut]
+        [Route("api/deleteImage")]
+        public IActionResult DeleteImage(int noteId)
+        {
+            try
+            {
+                bool result = this.manager.DeleteImage(noteId);
+                if (result)
+                {
+                    _logger.LogInformation($"Note = {noteId} image deleted");
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "image deleted" });
+                }
+                else
+                {
+                    _logger.LogInformation($"Note = {noteId} Image not Uploaded");
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Image Not deleted" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning($"User ={noteId} Exception Occured => {ex.Message}");
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
 
     }
 }

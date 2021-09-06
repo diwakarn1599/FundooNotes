@@ -23,7 +23,7 @@ namespace Manager.Interface
         bool SetRemainder(int noteId, string reminder);
         bool DeleteReminder(int noteId);
         bool EmptyTrash(int userId);
-
         bool AddImage(int noteId, IFormFile imageProps);
+        bool DeleteImage(int noteId);
     }
 }
