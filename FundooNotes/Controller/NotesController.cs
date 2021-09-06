@@ -14,6 +14,7 @@ namespace FundooNotes.Controller
     using System;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Http;
 
     [Authorize]
     public class NotesController : ControllerBase
@@ -403,6 +404,56 @@ namespace FundooNotes.Controller
                 {
                     _logger.LogInformation($"Note = {noteId} archive not updated");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Note not present" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning($"User ={noteId} Exception Occured => {ex.Message}");
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/addImage")]
+        public IActionResult AddImage(int noteId,IFormFile imageProps)
+        {
+            try
+            {
+                bool result = this.manager.AddImage(noteId, imageProps);
+                if (result)
+                {
+                    _logger.LogInformation($"Note = {noteId} image Uploaded");
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Image Uploaded" });
+                }
+                else
+                {
+                    _logger.LogInformation($"Note = {noteId} Image not Uploaded");
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Image Not Uploaded" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning($"User ={noteId} Exception Occured => {ex.Message}");
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/deleteImage")]
+        public IActionResult DeleteImage(int noteId)
+        {
+            try
+            {
+                bool result = this.manager.DeleteImage(noteId);
+                if (result)
+                {
+                    _logger.LogInformation($"Note = {noteId} image deleted");
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "image deleted" });
+                }
+                else
+                {
+                    _logger.LogInformation($"Note = {noteId} Image not Uploaded");
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Image Not deleted" });
                 }
             }
             catch (Exception ex)

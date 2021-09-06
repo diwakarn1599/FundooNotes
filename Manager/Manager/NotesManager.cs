@@ -1,4 +1,5 @@
 ﻿using Manager.Interface;
+using Microsoft.AspNetCore.Http;
 using Models.Models;
 using Repository.Interface;
 using System;
@@ -22,6 +23,19 @@ namespace Manager.Manager
         {
             this.repository = repository;
         }
+
+        public bool AddImage(int noteId, IFormFile imageProps)
+        {
+            try
+            {
+                return this.repository.AddImage(noteId, imageProps);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public bool AddNotes(NotesModel noteData)
         {
             try
@@ -39,6 +53,18 @@ namespace Manager.Manager
             try
             {
                 return this.repository.ChangeColor(noteId,color);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool DeleteImage(int noteId)
+        {
+            try
+            {
+                return this.repository.DeleteImage(noteId);
             }
             catch (Exception ex)
             {

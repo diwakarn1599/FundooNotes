@@ -1,4 +1,5 @@
-﻿using Models.Models;
+﻿using Microsoft.AspNetCore.Http;
+using Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,5 +23,7 @@ namespace Repository.Interface
         bool SetRemainder(int noteId, string reminder);
         bool DeleteReminder(int noteId);
         bool EmptyTrash(int userId);
+        bool AddImage(int noteId, IFormFile imageProps);
+        bool DeleteImage(int noteId);
     }
 }
