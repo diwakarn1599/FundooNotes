@@ -14,6 +14,8 @@ namespace Models.Models
         [ForeignKey("NotesModel")]
         public int NoteId { get; set; }
         public virtual NotesModel NotesModel { get; set; }
+
+        public string OwnerEmailId { get; set; }
         public string CollaboratorEmailId { get; set; }
     }
 }

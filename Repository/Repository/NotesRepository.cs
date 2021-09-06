@@ -84,7 +84,14 @@ namespace Repository.Repository
         {
             try
             {
+                var getEmail = this.notesContext.Users.Where(x => x.UserId == userId).SingleOrDefault();
                 List<NotesModel> getNotes = this.notesContext.Notes.Where(x => x.UserId == userId && (x.Trash == false && x.Archive==false)).ToList();
+                List<CollaboratorModel> getCollabNotes = this.notesContext.Collaborators.Where(x => x.CollaboratorEmailId == getEmail.Email).ToList();
+                foreach(var data in getCollabNotes)
+                {
+                    NotesModel getNote = this.notesContext.Notes.Where(x=>x.NoteId==data.NoteId && (x.Trash == false && x.Archive == false)).SingleOrDefault();
+                    getNotes.Add(getNote);
+                }
                 return getNotes;
             }
             catch (Exception ex)
