@@ -2,7 +2,7 @@
 
 namespace Repository.Migrations
 {
-    public partial class FundooCollaborator : Migration
+    public partial class FundooCollborators : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,6 +13,7 @@ namespace Repository.Migrations
                     CollaboratorId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NoteId = table.Column<int>(nullable: false),
+                    OwnerEmailId = table.Column<string>(nullable: true),
                     CollaboratorEmailId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

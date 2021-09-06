@@ -11,8 +11,6 @@ namespace Repository.Repository
     public class CollaboratorRepository : ICollaboratorRepository
     {
         private readonly UserContext collaboratorContext;
-        private readonly UserContext notesContext;
-        private readonly UserContext userContext;
 
         public CollaboratorRepository(UserContext collaboratorContext)
         {
@@ -23,23 +21,18 @@ namespace Repository.Repository
         {
             try
             {
-                var checkEmail = this.collaboratorContext.Users.Where(x => x.Email.Equals(collaborator.CollaboratorEmailId)).FirstOrDefault();
-                var checkNote = this.collaboratorContext.Notes.Where(x => x.NoteId == collaborator.NoteId).FirstOrDefault();
-                if (collaborator != null)
+                if (collaborator.OwnerEmailId != collaborator.CollaboratorEmailId)
                 {
-                    if(checkNote!=null)
+                    var checkExists = this.collaboratorContext.Collaborators.Where(x => x.CollaboratorEmailId.Equals(collaborator.CollaboratorEmailId) && x.NoteId == collaborator.NoteId).FirstOrDefault();
+                    if (checkExists == null)
                     {
-                        if(checkEmail!=null)
-                        {
-                            this.collaboratorContext.Collaborators.Add(collaborator);
-                            this.collaboratorContext.SaveChanges();
-                            return "Collaborator succcessfully added";
-                        }
-                        return "Email id not registered";
+                       this.collaboratorContext.Collaborators.Add(collaborator);
+                       this.collaboratorContext.SaveChanges();
+                       return "Collaborator succcessfully added";
                     }
-                    return "Note not present";
+                    return "Collaborator already exists to this note";
                 }
-                return "Unsuccessfull";
+                return "Owner cant be added as collaborator";
             }
             catch (Exception ex)
             {
