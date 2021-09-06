@@ -63,6 +63,8 @@ namespace FundooNotes
             services.AddTransient<INotesRepository, NotesRepository>();
             services.AddTransient<ICollaboratorManager, CollaboratorManager>();
             services.AddTransient<ICollaboratorRepository, CollaboratorRepository>();
+            services.AddTransient<ILabelManager, LabelManager>();
+            services.AddTransient<ILabelRepository, LabelRepository>();
 
             services.AddSwaggerGen(c =>
             {
