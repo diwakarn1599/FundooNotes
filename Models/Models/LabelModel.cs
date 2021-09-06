@@ -14,11 +14,11 @@ namespace Models.Models
         [Required]
         public string LabelName { get; set; }
         [ForeignKey("NotesModel")]
-        public int NoteId { get; set; }
+        public int? NoteId { get; set; }
         public virtual NotesModel NotesModel { get; set; }
 
         [ForeignKey("RegisterModel")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public virtual RegisterModel RegisterModel { get; set; }
 
 
