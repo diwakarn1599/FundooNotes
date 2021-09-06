@@ -62,5 +62,28 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpDelete]
+        [Route("api/deleteLabelFromUser")]
+        public IActionResult DeleteLabelFromUser(int userId,string labelName)
+        {
+            try
+            {
+                bool result = this.manager.DeleteLabelFromUser( userId,  labelName);
+                if(result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Label deleted from the user" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Label not exists" });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

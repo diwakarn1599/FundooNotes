@@ -38,5 +38,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool DeleteLabelFromUser(int userId, string labelName)
+        {
+            try
+            {
+                return this.repository.DeleteLabelFromUser(userId, labelName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

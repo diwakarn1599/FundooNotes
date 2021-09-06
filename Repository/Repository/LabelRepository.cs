@@ -53,5 +53,24 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool DeleteLabelFromUser(int userId, string labelName)
+        {
+            try
+            {
+                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == userId && x.LabelName.Equals(labelName)).ToList();
+                if (getAllLabels != null)
+                {
+                    this.labelContext.Labels.RemoveRange(getAllLabels);
+                    this.labelContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
