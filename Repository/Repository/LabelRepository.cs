@@ -12,9 +12,9 @@ namespace Repository.Repository
     {
         private readonly UserContext labelContext;
 
-        public LabelRepository(UserContext collaboratorContext)
+        public LabelRepository(UserContext labelContext)
         {
-            this.labelContext = collaboratorContext;
+            this.labelContext = labelContext;
         }
         public bool AddLabeltoNote(LabelModel labelData)
         {
@@ -43,6 +43,25 @@ namespace Repository.Repository
                 if (checkLabelExists == null)
                 {
                     this.labelContext.Labels.Add(labelData);
+                    this.labelContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool DeleteLabelFromNote(int labelId)
+        {
+            try
+            {
+                var getLabel = this.labelContext.Labels.Find(labelId);
+                if (getLabel != null)
+                {
+                    this.labelContext.Labels.Remove(getLabel);
                     this.labelContext.SaveChanges();
                     return true;
                 }
