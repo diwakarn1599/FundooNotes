@@ -43,5 +43,28 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpDelete]
+        [Route("api/removeCollaborator")]
+        public IActionResult RemoveCollaborator(int collaboratorId,int noteId)
+        {
+            try
+            {
+                bool result = this.manager.RemoveCollaborator(collaboratorId,noteId);
+                if (result)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Collaborator Removed" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Collaborator not exists to this note" });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

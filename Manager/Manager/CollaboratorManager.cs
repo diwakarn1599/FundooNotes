@@ -27,5 +27,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool RemoveCollaborator(int collaboratorId, int noteId)
+        {
+            try
+            {
+                return this.repository.RemoveCollaborator(collaboratorId, noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

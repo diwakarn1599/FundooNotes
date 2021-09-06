@@ -39,5 +39,26 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool RemoveCollaborator(int collaboratorId, int noteId)
+        {
+            try
+            {
+
+                var verifyNote = this.collaboratorContext.Collaborators.Where(x => x.CollaboratorId == collaboratorId && x.NoteId == noteId).SingleOrDefault();
+                if (verifyNote != null)
+                {
+
+                    this.collaboratorContext.Collaborators.Remove(verifyNote);
+                    this.collaboratorContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
