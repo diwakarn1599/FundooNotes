@@ -21,6 +21,7 @@ namespace FundooNotes.Repository.Repository
     using global::Repository.Context;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
+    using StackExchange.Redis;
 
     /// <summary>
     /// user repository class
@@ -107,7 +108,20 @@ namespace FundooNotes.Repository.Repository
                 string email = userData.Email;
                 string encodedPassword = EncodePasswordToBase64(userData.Password);
                 var login = this.userContext.Users.Where(x => x.Email.Equals(email) && x.Password.Equals(encodedPassword)).FirstOrDefault();
-                return login != null ? "Login Success" : "Login failed!!Email or password wrong";
+                if(login != null)
+                {
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    database.StringSet(key: "FirstName", login.FirstName);
+                    database.StringSet(key: "LastName", login.LastName);
+                    database.StringSet(key: "UserID", login.UserId.ToString());
+                    return "Login Success";
+                }
+                else
+                {
+                    return "Login failed!!Email or password wrong";
+                }
+                
             }
             catch (Exception ex)
             {

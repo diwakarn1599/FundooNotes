@@ -13,6 +13,8 @@ namespace FundooNotes.Controller
     using Microsoft.AspNetCore.Mvc;
     using global::Models.Models;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Caching.Distributed;
+    using StackExchange.Redis;
 
     /// <summary>
     /// User controller class
@@ -24,6 +26,7 @@ namespace FundooNotes.Controller
         /// </summary>
         private readonly IUserManager manager;
         private readonly ILogger<UserController> _logger;
+        private readonly IDistributedCache distributedCache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class
@@ -83,7 +86,21 @@ namespace FundooNotes.Controller
                 {
                     _logger.LogInformation($"{userData.Email} logged in");
                     string jwtToken = this.manager.GenrateJwtToken(userData.Email);
-                    return this.Ok(new { Status = true, Message = result ,userData.Email, jwtToken });
+
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    string FirstName = database.StringGet("FirstName");
+                    string LastName = database.StringGet("LastName");
+                    int UserId = Convert.ToInt32(database.StringGet("UserID"));
+
+                    RegisterModel usersData = new RegisterModel
+                    {
+                        FirstName = FirstName,
+                        LastName = LastName,
+                        UserId = UserId,
+                        Email = userData.Email
+                    };
+                    return this.Ok(new { Status = true, Message = result ,userData.Email, jwtToken,userData = usersData });
                 }
                 else
                 {
