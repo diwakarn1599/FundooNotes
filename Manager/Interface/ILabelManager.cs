@@ -13,5 +13,6 @@ namespace Manager.Interface
         bool DeleteLabelFromNote(int labelId);
         bool EditLabelName(int userId, string oldLabelName, string newLabelName);
         List<string> GetLabelofUser(int userId);
+        List<NotesModel> GetLabelNotes(int userId,string labelName);
     }
 }

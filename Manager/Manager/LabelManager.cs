@@ -75,6 +75,18 @@ namespace Manager.Manager
             }
         }
 
+        public List<NotesModel> GetLabelNotes(int userId,string labelName)
+        {
+            try
+            {
+                return this.repository.GetLabelNotes(userId,labelName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public List<string> GetLabelofUser(int userId)
         {
             try

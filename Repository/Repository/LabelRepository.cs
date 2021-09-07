@@ -111,6 +111,26 @@ namespace Repository.Repository
             }
         }
 
+        public List<NotesModel> GetLabelNotes(int userId,string labelName)
+        {
+            try
+            {
+                var getAllLabels = (from label in this.labelContext.Labels
+                                   join notes in this.labelContext.Notes on label.NoteId equals notes.NoteId
+                                    where (label.UserId == userId && label.LabelName.Equals(labelName) && notes.Trash==false)
+                                   select notes).ToList();
+                if (getAllLabels.Count>0)
+                {
+                    return getAllLabels;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public List<string> GetLabelofUser(int userId)
         {
             try

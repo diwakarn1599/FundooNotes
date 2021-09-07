@@ -155,6 +155,29 @@ namespace FundooNotes.Controller
             }
         }
 
+        [HttpGet]
+        [Route("api/getLabelNotes")]
+        public IActionResult GetLabelNotes(int userId,string labelName)
+        {
+            try
+            {
+                List<NotesModel> result = this.manager.GetLabelNotes(userId,labelName);
+                if (result.Count > 0)
+                {
+                    return this.Ok(new { Status = true, Message = "User Label retreived",labelName,labels = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "User not exists" });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
 
     }
 }
