@@ -18,7 +18,7 @@ namespace Models.Models
         public virtual NotesModel NotesModel { get; set; }
 
         [ForeignKey("RegisterModel")]
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public virtual RegisterModel RegisterModel { get; set; }
 
 

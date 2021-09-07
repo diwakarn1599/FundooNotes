@@ -91,5 +91,24 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool EditLabelName(int userId, string oldLabelName, string newLabelName)
+        {
+            try
+            {
+                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == userId && x.LabelName.Equals(oldLabelName)).ToList();
+                if (getAllLabels.Count>0)
+                {
+                    getAllLabels.ForEach(i => i.LabelName = newLabelName);
+                    this.labelContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

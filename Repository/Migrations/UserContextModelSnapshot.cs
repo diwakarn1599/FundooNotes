@@ -84,7 +84,7 @@ namespace Repository.Migrations
                     b.Property<int?>("NoteId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("LabelId");
@@ -154,7 +154,9 @@ namespace Repository.Migrations
 
                     b.HasOne("FundooNotes.Models.RegisterModel", "RegisterModel")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Models.Models.NotesModel", b =>
