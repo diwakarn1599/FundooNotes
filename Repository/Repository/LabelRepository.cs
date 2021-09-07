@@ -110,5 +110,22 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<string> GetLabelofUser(int userId)
+        {
+            try
+            {
+                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == userId).Select(i=>i.LabelName).Distinct().ToList();
+                if (getAllLabels.Count > 0)
+                {
+                    return getAllLabels;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

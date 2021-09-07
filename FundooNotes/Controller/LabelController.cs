@@ -131,5 +131,30 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("api/getLabelofUser")]
+        public IActionResult GetLabelofUser(int userId)
+        {
+            try
+            {
+                List<string> result = this.manager.GetLabelofUser(userId);
+                if (result.Count>0)
+                {
+                    return this.Ok(new { Status = true, Message = "User Label retreived",labels = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "User not exists" });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
     }
 }
