@@ -30,7 +30,7 @@ namespace FundooNotes.Controller
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Label already exists" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Label already exists or note is in trash" });
                 }
             }
             catch (Exception ex)
