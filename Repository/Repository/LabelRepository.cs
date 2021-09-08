@@ -20,14 +20,20 @@ namespace Repository.Repository
         {
             try
             {
-                var checkLabel = (from label in this.labelContext.Labels
-                                  join notes in this.labelContext.Notes on labelData.NoteId equals notes.NoteId
-                                  where ((label.LabelName.Equals(labelData.LabelName) || notes.Trash == true) && labelData.UserId == label.UserId)
-                                  select notes).FirstOrDefault();
+                
+                var checkLabel = this.labelContext.Labels.Where(label=> label.LabelName.Equals(labelData.LabelName) && labelData.UserId == label.UserId && label.NoteId != null).FirstOrDefault();
                 if (checkLabel == null)
                 {
                     this.labelContext.Labels.Add(labelData);
                     this.labelContext.SaveChanges();
+                    var checkLabelExists = this.labelContext.Labels.Where(x => x.UserId == labelData.UserId && x.LabelName.Equals(labelData.LabelName) && x.NoteId==null).FirstOrDefault();
+                    if (checkLabelExists == null)
+                    {
+                        labelData.LabelId = 0;
+                        labelData.NoteId = null;
+                        this.labelContext.Labels.Add(labelData);
+                        this.labelContext.SaveChanges();
+                    }
                     return true;
                 }
                 return false;
@@ -42,7 +48,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkLabelExists = this.labelContext.Labels.Where(x => x.UserId == labelData.UserId && x.LabelName.Equals(labelData.LabelName)).SingleOrDefault();
+                var checkLabelExists = this.labelContext.Labels.Where(x => x.UserId == labelData.UserId && x.LabelName.Equals(labelData.LabelName)).FirstOrDefault();
                 if (checkLabelExists == null)
                 {
                     this.labelContext.Labels.Add(labelData);

@@ -7,11 +7,10 @@
 
 namespace FundooNotes.Controller
 {
-    using FundooNotes.Managers.Interface;
+    using System;
     using Manager.Interface;
     using Microsoft.AspNetCore.Mvc;
     using global::Models.Models;
-    using System;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Http;
