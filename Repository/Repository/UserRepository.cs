@@ -19,6 +19,7 @@ namespace FundooNotes.Repository.Repository
     using FundooNotes.Repository.Interface;
     using global::Models.Models;
     using global::Repository.Context;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
     using StackExchange.Redis;

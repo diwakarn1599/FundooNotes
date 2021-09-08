@@ -15,6 +15,7 @@ namespace FundooNotes.Controller
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Caching.Distributed;
     using StackExchange.Redis;
+    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// User controller class
@@ -26,7 +27,7 @@ namespace FundooNotes.Controller
         /// </summary>
         private readonly IUserManager manager;
         private readonly ILogger<UserController> _logger;
-        private readonly IDistributedCache distributedCache;
+        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class
@@ -49,10 +50,15 @@ namespace FundooNotes.Controller
         {
             try
             {
+                string SessionFirstName = "";
+                string SessionEmail = "";
                 _logger.LogInformation($"{userData.FirstName} registering");
                 string result = this.manager.Register(userData);
                 if (result.Equals("Registration Successfull"))
                 {
+                    HttpContext.Session.SetString(SessionFirstName, userData.FirstName);
+                    HttpContext.Session.SetString(SessionEmail, userData.Email);
+
                     _logger.LogInformation($"{userData.FirstName} registered successfully");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
