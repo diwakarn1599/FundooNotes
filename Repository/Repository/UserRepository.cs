@@ -17,11 +17,10 @@ namespace FundooNotes.Repository.Repository
     using Experimental.System.Messaging;
     using FundooNotes.Models;
     using FundooNotes.Repository.Interface;
-    using global::Models.Models;
-    using global::Repository.Context;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
+    using global::Models.Models;
+    using global::Repository.Context;
     using StackExchange.Redis;
 
     /// <summary>
@@ -34,6 +33,9 @@ namespace FundooNotes.Repository.Repository
         /// </summary>
         private readonly UserContext userContext;
 
+        /// <summary>
+        /// The configuration
+        /// </summary>
         private readonly IConfiguration configuration;
 
         /// <summary>
@@ -77,7 +79,7 @@ namespace FundooNotes.Repository.Repository
             try
             {
                 var checkEmail = this.userContext.Users.Where(x => x.Email.Equals(userData.Email)).FirstOrDefault();
-                if(checkEmail==null)
+                if (checkEmail == null)
                 {
                     if (userData != null)
                     {
@@ -86,6 +88,7 @@ namespace FundooNotes.Repository.Repository
                         this.userContext.SaveChanges();
                         return "Registration Successfull";
                     }
+
                     return "Registration UnSuccessfull";
                 }
 
@@ -109,7 +112,7 @@ namespace FundooNotes.Repository.Repository
                 string email = userData.Email;
                 string encodedPassword = EncodePasswordToBase64(userData.Password);
                 var login = this.userContext.Users.Where(x => x.Email.Equals(email) && x.Password.Equals(encodedPassword)).FirstOrDefault();
-                if(login != null)
+                if (login != null)
                 {
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
                     IDatabase database = connectionMultiplexer.GetDatabase();
@@ -122,7 +125,6 @@ namespace FundooNotes.Repository.Repository
                 {
                     return "Login failed!!Email or password wrong";
                 }
-                
             }
             catch (Exception ex)
             {
@@ -199,7 +201,6 @@ namespace FundooNotes.Repository.Repository
                 var receiveMsg = receiveQueue.Receive();
                 receiveMsg.Formatter = new BinaryMessageFormatter();
                 return receiveMsg.Body.ToString();
-                
             }
             catch (Exception ex)
             {
@@ -234,7 +235,7 @@ namespace FundooNotes.Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        //
+
         /// <summary>
         /// Resets the password.
         /// </summary>
@@ -264,13 +265,21 @@ namespace FundooNotes.Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Generates the JWT token.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>
+        /// returns token
+        /// </returns>
         public string GenrateJwtToken(string email)
         {
             byte[] key = Encoding.UTF8.GetBytes(this.configuration["SecretKey"]);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {
+                Subject = new ClaimsIdentity(new[] 
+                {
                 new Claim(ClaimTypes.Name, email)
             }),
                 Expires = DateTime.UtcNow.AddMinutes(30),

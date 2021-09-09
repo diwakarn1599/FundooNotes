@@ -102,6 +102,14 @@ namespace FundooNotes.Managers.Manager
             }
         }
 
+        /// <summary>
+        /// Generates the JWT token.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>
+        /// string of token
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public string GenrateJwtToken(string email)
         {
             try

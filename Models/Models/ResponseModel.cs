@@ -10,7 +10,7 @@ namespace Models.Models
     /// <summary>
     /// response model class with 3 properties
     /// </summary>
-    /// <typeparam name="T">Gerics type</typeparam>
+    /// <typeparam name="T">Generics type</typeparam>
     public class ResponseModel<T>
     {
         /// <summary>

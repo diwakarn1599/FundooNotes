@@ -1,13 +1,23 @@
-﻿using Manager.Interface;
-using Microsoft.AspNetCore.Http;
-using Models.Models;
-using Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesManager.cs" company="TVSnxt">
+//   Copyright © 2021 Company="TVSnxt"
+// </copyright>
+// <creator name="Diwakar"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace Manager.Manager
 {
+    using System;
+    using System.Collections.Generic;
+    using global::Manager.Interface;
+    using Microsoft.AspNetCore.Http;
+    using Models.Models;
+    using Repository.Interface;
+
+    /// <summary>
+    /// notes manager class
+    /// </summary>
+    /// <seealso cref="Manager.Interface.INotesManager" />
     public class NotesManager : INotesManager
     {
         /// <summary>
@@ -24,6 +34,15 @@ namespace Manager.Manager
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Adds the image.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <param name="imageProps">The image props.</param>
+        /// <returns>
+        /// boolean of image added or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool AddImage(int noteId, IFormFile imageProps)
         {
             try
@@ -36,6 +55,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Adds the notes.
+        /// </summary>
+        /// <param name="noteData">The note data.</param>
+        /// <returns>
+        /// boolean of note added or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool AddNotes(NotesModel noteData)
         {
             try
@@ -48,11 +75,20 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Changes the color.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <param name="color">The color.</param>
+        /// <returns>
+        /// string of color changed or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public string ChangeColor(int noteId, string color)
         {
             try
             {
-                return this.repository.ChangeColor(noteId,color);
+                return this.repository.ChangeColor(noteId, color);
             }
             catch (Exception ex)
             {
@@ -60,6 +96,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Deletes the image.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// boolean of image deleted or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool DeleteImage(int noteId)
         {
             try
@@ -72,6 +116,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Deletes the note.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// boolean of note deleted or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool DeleteNote(int noteId)
         {
             try
@@ -84,6 +136,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Deletes the reminder.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// boolean of note  deleted or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool DeleteReminder(int noteId)
         {
             try
@@ -96,6 +156,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Empties the trash.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// boolean of trash emptied or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool EmptyTrash(int userId)
         {
             try
@@ -108,6 +176,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Gets the archive notes.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// list of user archive notes
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public List<NotesModel> GetArchiveNotes(int userId)
         {
             try
@@ -120,6 +196,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Gets the notes.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// list of user notes
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public List<NotesModel> GetNotes(int userId)
         {
             try
@@ -132,6 +216,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Gets the reminder notes.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// list of user reminder notes
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public List<NotesModel> GetReminderNotes(int userId)
         {
             try
@@ -144,6 +236,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Gets the trash notes.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// list of user trash notes
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public List<NotesModel> GetTrashNotes(int userId)
         {
             try
@@ -156,6 +256,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Moves to trash.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// boolean of note trash updated or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool MoveToTrash(int noteId)
         {
             try
@@ -168,6 +276,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Restores the note.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// boolean of note restored or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool RestoreNote(int noteId)
         {
             try
@@ -180,6 +296,15 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Sets the remainder.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <param name="reminder">The reminder.</param>
+        /// <returns>
+        /// boolean of reminder set or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool SetRemainder(int noteId, string reminder)
         {
             try
@@ -192,6 +317,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Toggles the archive.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// boolean of note archive updated or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool ToggleArchive(int noteId)
         {
             try
@@ -204,6 +337,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Toggles the pin.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// boolean of note pin updated or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool TogglePin(int noteId)
         {
             try
@@ -216,6 +357,14 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Updates the note.
+        /// </summary>
+        /// <param name="noteData">The note data.</param>
+        /// <returns>
+        /// boolean of note  updated or not
+        /// </returns>
+        /// <exception cref="System.Exception">throws exception</exception>
         public bool UpdateNote(NotesModel noteData)
         {
             try

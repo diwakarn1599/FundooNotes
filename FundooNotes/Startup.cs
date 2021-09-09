@@ -6,27 +6,27 @@
 // ----------------------------------------------------------------------------------------------------------
 namespace FundooNotes
 {
+    using System;
+    using System.Text;
     using FundooNotes.Managers.Interface;
     using FundooNotes.Managers.Manager;
     using FundooNotes.Repository.Interface;
     using FundooNotes.Repository.Repository;
+    using Manager.Interface;
+    using Manager.Manager;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
+    using Microsoft.OpenApi.Models;
     using global::Repository.Context;
-    using Manager.Interface;
-    using Manager.Manager;
     using global::Repository.Interface;
     using global::Repository.Repository;
-    using Microsoft.OpenApi.Models;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.IdentityModel.Tokens;
-    using System.Text;
-    using System;
-
+    
     /// <summary>
     /// startup class
     /// </summary>
@@ -56,8 +56,9 @@ namespace FundooNotes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time   
+            services.AddSession(options => 
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);  
             });
             services.AddMvc();
             services.AddDbContextPool<UserContext>(
@@ -73,10 +74,12 @@ namespace FundooNotes
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Fundoo Notes",Description="Manage notes of user", Version = "1.0" });
-
+                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Fundoo Notes", Description = "Manage notes of user", Version = "1.0" });
+                
                 // To Enable authorization using Swagger (JWT)  
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                c.AddSecurityDefinition(
+                "Bearer",
+                new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
@@ -95,20 +98,16 @@ namespace FundooNotes
                                     Type = ReferenceType.SecurityScheme,
                                     Id = "Bearer"
                                 }
-                            },
-                            new string[] {}
-
+                            }, 
+                           new string[] { }
                     }
                 });
-
-
             });
 
             services.AddAuthentication(option =>
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -117,7 +116,7 @@ namespace FundooNotes
                     ValidateAudience = false,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["SecretKey"])) //Configuration["JwtToken:SecretKey"]  
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["SecretKey"])) ////Configuration["JwtToken:SecretKey"]  
                 };
             });
         }

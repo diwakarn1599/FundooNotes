@@ -10,12 +10,12 @@ namespace FundooNotes.Controller
     using System;
     using FundooNotes.Managers.Interface;
     using FundooNotes.Models;
-    using Microsoft.AspNetCore.Mvc;
-    using global::Models.Models;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Caching.Distributed;
-    using StackExchange.Redis;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Logging;
+    using global::Models.Models;
+    using StackExchange.Redis;
 
     /// <summary>
     /// User controller class
@@ -26,17 +26,21 @@ namespace FundooNotes.Controller
         /// manager object
         /// </summary>
         private readonly IUserManager manager;
-        private readonly ILogger<UserController> _logger;
-        
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserController" /> class
+        /// The logger
         /// </summary>
-        /// <param name="manager">initializes object</param>
-        public UserController(IUserManager manager , ILogger<UserController> logger)
+        private readonly ILogger<UserController> logger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// </summary>
+        /// <param name="manager">The manager.</param>
+        /// <param name="logger">The logger.</param>
+        public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
-            _logger = logger;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -50,27 +54,27 @@ namespace FundooNotes.Controller
         {
             try
             {
-                string SessionFirstName = "";
-                string SessionEmail = "";
-                _logger.LogInformation($"{userData.FirstName} registering");
+                string sessionFirstName = string.Empty;
+                string sessionEmail = string.Empty;
+                this.logger.LogInformation($"{userData.FirstName} registering");
                 string result = this.manager.Register(userData);
                 if (result.Equals("Registration Successfull"))
                 {
-                    HttpContext.Session.SetString(SessionFirstName, userData.FirstName);
-                    HttpContext.Session.SetString(SessionEmail, userData.Email);
+                    HttpContext.Session.SetString(sessionFirstName, userData.FirstName);
+                    HttpContext.Session.SetString(sessionEmail, userData.Email);
 
-                    _logger.LogInformation($"{userData.FirstName} registered successfully");
+                    this.logger.LogInformation($"{userData.FirstName} registered successfully");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    _logger.LogInformation($"{userData.FirstName} registeration unsuccessfull");
+                    this.logger.LogInformation($"{userData.FirstName} registeration unsuccessfull");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogWarning($"{userData.FirstName} Exception Occured => {ex.Message}");
+                this.logger.LogWarning($"{userData.FirstName} Exception Occured => {ex.Message}");
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -86,37 +90,36 @@ namespace FundooNotes.Controller
         {
             try
             {
-                
                 string result = this.manager.Login(userData);
                 if (result.Equals("Login Success"))
                 {
-                    _logger.LogInformation($"{userData.Email} logged in");
+                    this.logger.LogInformation($"{userData.Email} logged in");
                     string jwtToken = this.manager.GenrateJwtToken(userData.Email);
 
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
                     IDatabase database = connectionMultiplexer.GetDatabase();
-                    string FirstName = database.StringGet("FirstName");
-                    string LastName = database.StringGet("LastName");
-                    int UserId = Convert.ToInt32(database.StringGet("UserID"));
+                    string firstName = database.StringGet("FirstName");
+                    string lastName = database.StringGet("LastName");
+                    int userId = Convert.ToInt32(database.StringGet("UserID"));
 
                     RegisterModel usersData = new RegisterModel
                     {
-                        FirstName = FirstName,
-                        LastName = LastName,
-                        UserId = UserId,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        UserId = userId,
                         Email = userData.Email
                     };
-                    return this.Ok(new { Status = true, Message = result ,userData.Email, jwtToken,userData = usersData });
+                    return this.Ok(new { Status = true, Message = result, userData.Email, jwtToken, userData = usersData });
                 }
                 else
                 {
-                    _logger.LogInformation($"{userData.Email} login failed");
+                    this.logger.LogInformation($"{userData.Email} login failed");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogWarning($"{userData.Email} Exception Occured => {ex.Message}");
+                this.logger.LogWarning($"{userData.Email} Exception Occured => {ex.Message}");
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -132,48 +135,53 @@ namespace FundooNotes.Controller
         {
             try
             {
-                _logger.LogInformation($"{email} is clicked forgot password");
+                this.logger.LogInformation($"{email} is clicked forgot password");
                 bool result = this.manager.ForgotPassword(email);
                 if (result)
                 {
-                    _logger.LogInformation($"Mail sent to {email} for reseting password");
+                    this.logger.LogInformation($"Mail sent to {email} for reseting password");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please Check the mail" });
                 }
                 else
                 {
-                    _logger.LogInformation($"{email} is not present in database");
+                    this.logger.LogInformation($"{email} is not present in database");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Error!!!Email id incorrect" });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogWarning($"{email} Exception Occured => {ex.Message}");
+                this.logger.LogWarning($"{email} Exception Occured => {ex.Message}");
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="userData">The user data.</param>
+        /// <returns>password reset or not</returns>
         [HttpPut]
         [Route("api/resetPassword")]
         public IActionResult ResetPassword([FromBody] CredentialModel userData)
         {
             try
             {
-                _logger.LogInformation($"{userData.Email} reseting password");
+                this.logger.LogInformation($"{userData.Email} reseting password");
                 bool result = this.manager.ResetPassword(userData);
                 if (result)
                 {
-                    _logger.LogInformation($"{userData.Email} Password reseted");
+                    this.logger.LogInformation($"{userData.Email} Password reseted");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Password has been reseted" });
                 }
                 else
                 {
-                    _logger.LogInformation($"{userData.Email} Password not reseted");
+                    this.logger.LogInformation($"{userData.Email} Password not reseted");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Error!!!Try after some time" });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogWarning($"{userData.Email} Exception Occured => {ex.Message}");
+                this.logger.LogWarning($"{userData.Email} Exception Occured => {ex.Message}");
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }

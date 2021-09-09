@@ -43,6 +43,11 @@ namespace FundooNotes.Managers.Interface
         /// <returns>boolean value whether reset or not</returns>
         bool ResetPassword(CredentialModel userData);
 
+        /// <summary>
+        /// Generates the JWT token.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>string of token</returns>
         string GenrateJwtToken(string email);
     }
 }
