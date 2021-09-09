@@ -90,16 +90,15 @@ namespace FundooNotes.Controller
         /// <summary>
         /// Deletes the label from user.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="labelName">Name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>label deleted or not</returns>
         [HttpDelete]
         [Route("api/deleteLabelFromUser")]
-        public IActionResult DeleteLabelFromUser(int userId, string labelName)
+        public IActionResult DeleteLabelFromUser(LabelModel labelData)
         {
             try
             {
-                bool result = this.manager.DeleteLabelFromUser(userId, labelName);
+                bool result = this.manager.DeleteLabelFromUser(labelData);
                 if (result)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Label deleted from the user" });
@@ -145,17 +144,15 @@ namespace FundooNotes.Controller
         /// <summary>
         /// Edits the name of the label.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="oldLabelName">Old name of the label.</param>
-        /// <param name="newLabelName">New name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>label edited or not</returns>
         [HttpPut]
         [Route("api/editLabelName")]
-        public IActionResult EditLabelName(int userId, string oldLabelName, string newLabelName)
+        public IActionResult EditLabelName(LabelModel labelData)
         {
             try
             {
-                bool result = this.manager.EditLabelName(userId, oldLabelName, newLabelName);
+                bool result = this.manager.EditLabelName(labelData);
                 if (result)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Label name changed" });
@@ -201,16 +198,15 @@ namespace FundooNotes.Controller
         /// <summary>
         /// Gets the label notes.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="labelName">Name of the label.</param>
-        /// <returns>list of notes</returns>
+        /// <param name="labelData">The label data.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/getLabelNotes")]
-        public IActionResult GetLabelNotes(int userId, string labelName)
+        public IActionResult GetLabelNotes(LabelModel labelData)
         {
             try
             {
-                List<NotesModel> result = this.manager.GetLabelNotes(userId, labelName);
+                List<NotesModel> result = this.manager.GetLabelNotes(labelData);
                 if (result.Count > 0)
                 {
                     return this.Ok(new { Status = true, Message = "User Label retreived", labelName, labels = result });

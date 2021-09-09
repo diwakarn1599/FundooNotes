@@ -32,10 +32,9 @@ namespace Repository.Interface
         /// <summary>
         /// Deletes the label from user.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="labelName">Name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>boolean of label deleted or not</returns>
-        bool DeleteLabelFromUser(int userId, string labelName);
+        bool DeleteLabelFromUser(LabelModel labelData);
 
         /// <summary>
         /// Deletes the label from note.
@@ -47,11 +46,9 @@ namespace Repository.Interface
         /// <summary>
         /// Edits the name of the label.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="oldLabelName">Old name of the label.</param>
-        /// <param name="newLabelName">New name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>boolean of label edited or not</returns>
-        bool EditLabelName(int userId, string oldLabelName, string newLabelName);
+        bool EditLabelName(LabelModel labelData);
 
         /// <summary>
         /// Gets the label of user.
@@ -63,9 +60,8 @@ namespace Repository.Interface
         /// <summary>
         /// Gets the label notes.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="labelName">Name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>list of label notes</returns>
-        List<NotesModel> GetLabelNotes(int userId, string labelName);
+        List<NotesModel> GetLabelNotes(LabelModel labelData);
     }
 }

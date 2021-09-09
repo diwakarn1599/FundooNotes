@@ -130,17 +130,16 @@ namespace Repository.Repository
         /// <summary>
         /// Deletes the label from user.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="labelName">Name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>
         /// boolean of label deleted or not
         /// </returns>
-        /// <exception cref="System.Exception">Throws Exception</exception>
-        public bool DeleteLabelFromUser(int userId, string labelName)
+        /// <exception cref="System.Exception">throws exception</exception>
+        public bool DeleteLabelFromUser(LabelModel labelData)
         {
             try
             {
-                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == userId && x.LabelName.Equals(labelName)).ToList();
+                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == labelData.UserId && x.LabelName.Equals(labelData.LabelName)).ToList();
                 if (getAllLabels != null)
                 {
                     this.labelContext.Labels.RemoveRange(getAllLabels);
@@ -159,21 +158,20 @@ namespace Repository.Repository
         /// <summary>
         /// Edits the name of the label.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="oldLabelName">Old name of the label.</param>
-        /// <param name="newLabelName">New name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>
         /// boolean of label edited or not
         /// </returns>
         /// <exception cref="System.Exception">Throws Exception</exception>
-        public bool EditLabelName(int userId, string oldLabelName, string newLabelName)
+        public bool EditLabelName(LabelModel labelData)
         {
             try
             {
-                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == userId && x.LabelName.Equals(oldLabelName)).ToList();
+                var getLabelName = this.labelContext.Labels.Find(labelData.LabelId);
+                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == labelData.UserId && x.LabelName.Equals(getLabelName.LabelName)).ToList();
                 if (getAllLabels.Count > 0)
                 {
-                    getAllLabels.ForEach(i => i.LabelName = newLabelName);
+                    getAllLabels.ForEach(i => i.LabelName = labelData.LabelName);
                     this.labelContext.SaveChanges();
                     return true;
                 }
@@ -189,19 +187,18 @@ namespace Repository.Repository
         /// <summary>
         /// Gets the label notes.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="labelName">Name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>
         /// list of label notes
         /// </returns>
         /// <exception cref="System.Exception">Throws Exception</exception>
-        public List<NotesModel> GetLabelNotes(int userId, string labelName)
+        public List<NotesModel> GetLabelNotes(LabelModel labelData)
         {
             try
             {
                 var getAllLabels = (from label in this.labelContext.Labels
                                    join notes in this.labelContext.Notes on label.NoteId equals notes.NoteId
-                                    where (label.UserId == userId && label.LabelName.Equals(labelName) && notes.Trash == false)
+                                    where (label.UserId == labelData.UserId && label.LabelName.Equals(labelData.LabelName))
                                    select notes).ToList();
                 if (getAllLabels.Count > 0)
                 {
@@ -228,7 +225,10 @@ namespace Repository.Repository
         {
             try
             {
-                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == userId).Select(i => i.LabelName).Distinct().ToList();
+                var getAllLabels = this.labelContext.Labels.Where(x => x.UserId == userId)
+                                    .Select(i => i.LabelName)
+                                    .Distinct()
+                                    .ToList();
                 if (getAllLabels.Count > 0)
                 {
                     return getAllLabels;

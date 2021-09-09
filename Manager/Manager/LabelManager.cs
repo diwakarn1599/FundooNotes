@@ -96,17 +96,14 @@ namespace Manager.Manager
         /// <summary>
         /// Deletes the label from user.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="labelName">Name of the label.</param>
-        /// <returns>
-        /// boolean of label deleted or not
-        /// </returns>
+        /// <param name="labelData">The label data.</param>
+        /// <returns></returns>
         /// <exception cref="System.Exception">throws exception</exception>
-        public bool DeleteLabelFromUser(int userId, string labelName)
+        public bool DeleteLabelFromUser(LabelModel labelData)
         {
             try
             {
-                return this.repository.DeleteLabelFromUser(userId, labelName);
+                return this.repository.DeleteLabelFromUser(labelData);
             }
             catch (Exception ex)
             {
@@ -117,18 +114,16 @@ namespace Manager.Manager
         /// <summary>
         /// Edits the name of the label.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="oldLabelName">Old name of the label.</param>
-        /// <param name="newLabelName">New name of the label.</param>
+        /// <param name="labelData">The label data.</param>
         /// <returns>
         /// boolean of label edited or not
         /// </returns>
         /// <exception cref="System.Exception">throws exception</exception>
-        public bool EditLabelName(int userId, string oldLabelName, string newLabelName)
+        public bool EditLabelName(LabelModel labelData)
         {
             try
             {
-                return this.repository.EditLabelName(userId, oldLabelName, newLabelName);
+                return this.repository.EditLabelName(labelData);
             }
             catch (Exception ex)
             {
@@ -139,17 +134,14 @@ namespace Manager.Manager
         /// <summary>
         /// Gets the label notes.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="labelName">Name of the label.</param>
-        /// <returns>
-        /// list of label notes
-        /// </returns>
+        /// <param name="labelData">The label data.</param>
+        /// <returns></returns>
         /// <exception cref="System.Exception">throws exception</exception>
-        public List<NotesModel> GetLabelNotes(int userId, string labelName)
+        public List<NotesModel> GetLabelNotes(LabelModel labelData)
         {
             try
             {
-                return this.repository.GetLabelNotes(userId, labelName);
+                return this.repository.GetLabelNotes(labelData);
             }
             catch (Exception ex)
             {
