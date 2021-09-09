@@ -241,5 +241,31 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Gets the labels of note.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// list of labels
+        /// </returns>
+        /// <exception cref="System.Exception">Throws exception</exception>
+        public List<LabelModel> GetLabelsOfNote(int noteId)
+        {
+            try
+            {
+                var getAllLabels = this.labelContext.Labels.Where(x => x.NoteId == noteId).ToList();
+                if (getAllLabels.Count > 0)
+                {
+                    return getAllLabels;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

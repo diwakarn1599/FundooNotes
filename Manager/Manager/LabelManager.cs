@@ -168,5 +168,25 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Gets the labels of note.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>
+        /// list of labels
+        /// </returns>
+        /// <exception cref="System.Exception">Throws exception</exception>
+        public List<LabelModel> GetLabelsOfNote(int noteId)
+        {
+            try
+            {
+                return this.repository.GetLabelsOfNote(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

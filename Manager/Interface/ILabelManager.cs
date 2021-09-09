@@ -63,5 +63,12 @@ namespace Manager.Interface
         /// <param name="labelData">The label data.</param>
         /// <returns></returns>
         List<NotesModel> GetLabelNotes(LabelModel labelData);
+
+        /// <summary>
+        /// Gets the labels of note.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>list of labels</returns>
+        List<LabelModel> GetLabelsOfNote(int noteId);
     }
 }

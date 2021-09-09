@@ -12,11 +12,13 @@ namespace FundooNotes.Controller
     using Manager.Interface;
     using Microsoft.AspNetCore.Mvc;
     using global::Models.Models;
+    using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
     /// Label Controller class
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    [Authorize]
     public class LabelController : ControllerBase
     {
         /// <summary>
@@ -94,7 +96,7 @@ namespace FundooNotes.Controller
         /// <returns>label deleted or not</returns>
         [HttpDelete]
         [Route("api/deleteLabelFromUser")]
-        public IActionResult DeleteLabelFromUser(LabelModel labelData)
+        public IActionResult DeleteLabelFromUser([FromBody] LabelModel labelData)
         {
             try
             {
@@ -148,7 +150,7 @@ namespace FundooNotes.Controller
         /// <returns>label edited or not</returns>
         [HttpPut]
         [Route("api/editLabelName")]
-        public IActionResult EditLabelName(LabelModel labelData)
+        public IActionResult EditLabelName([FromBody] LabelModel labelData)
         {
             try
             {
@@ -199,21 +201,48 @@ namespace FundooNotes.Controller
         /// Gets the label notes.
         /// </summary>
         /// <param name="labelData">The label data.</param>
-        /// <returns></returns>
+        /// <returns>list of notes associated with notes</returns>
         [HttpGet]
         [Route("api/getLabelNotes")]
-        public IActionResult GetLabelNotes(LabelModel labelData)
+        public IActionResult GetLabelNotes([FromBody] LabelModel labelData)
         {
             try
             {
                 List<NotesModel> result = this.manager.GetLabelNotes(labelData);
                 if (result.Count > 0)
                 {
-                    return this.Ok(new { Status = true, Message = "User Label retreived", labelName, labels = result });
+                    return this.Ok(new { Status = true, Message = "User Label retreived", labelData.LabelName, labels = result });
                 }
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "User not exists" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Gets the labels of note.
+        /// </summary>
+        /// <param name="labelData">The label data.</param>
+        /// <returns>list of labels</returns>
+        [HttpGet]
+        [Route("api/getLabelsOfNote")]
+        public IActionResult GetLabelsOfNote(int noteId)
+        {
+            try
+            {
+                List<LabelModel> result = this.manager.GetLabelsOfNote(noteId);
+                if (result.Count > 0)
+                {
+                    return this.Ok(new { Status = true, Message = "Labels retreived", labels = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "note not exists" });
                 }
             }
             catch (Exception ex)
